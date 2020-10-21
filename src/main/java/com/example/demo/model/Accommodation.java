@@ -1,18 +1,23 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Accommodation {
-    private int accommodationId;
-    private String accName;
-    private String accAddress;
-
     @Id
     @Column(name = "accommodation_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int accommodationId;
+
+    @Basic
+    @Column(name = "acc_name")
+    private String accName;
+
+    @Basic
+    @Column(name = "acc_address")
+    private String accAddress;
+
+
     public int getAccommodationId ()
     {
         return accommodationId;
@@ -23,8 +28,7 @@ public class Accommodation {
         this.accommodationId = accommodationId;
     }
 
-    @Basic
-    @Column(name = "acc_name")
+
     public String getAccName ()
     {
         return accName;
@@ -35,8 +39,7 @@ public class Accommodation {
         this.accName = accName;
     }
 
-    @Basic
-    @Column(name = "acc_address")
+
     public String getAccAddress ()
     {
         return accAddress;

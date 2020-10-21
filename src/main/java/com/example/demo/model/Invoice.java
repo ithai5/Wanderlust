@@ -7,11 +7,16 @@ import javax.persistence.Id;
 
 @Entity
 public class Invoice {
-    private int invoiceId;
-    private String totalPeople;
 
     @Id
     @Column(name = "invoice_id")
+    private int invoiceId;
+
+    @Basic
+    @Column(name = "total_people")
+    private String totalPeople;
+
+
     public int getInvoiceId ()
     {
         return invoiceId;
@@ -22,8 +27,7 @@ public class Invoice {
         this.invoiceId = invoiceId;
     }
 
-    @Basic
-    @Column(name = "total_people")
+
     public String getTotalPeople ()
     {
         return totalPeople;

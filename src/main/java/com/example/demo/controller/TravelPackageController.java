@@ -45,7 +45,7 @@ public class TravelPackageController {
         return travelPackageRepo.save(travelPackage);
     }
 
-    @PatchMapping(path = "travelPackage/{id}", consumes = "application/json")
+    @PatchMapping(path = "/travelPackage/{id}", consumes = "application/json")
     public TravelPackage patchTravelPackage(@PathVariable long id, @RequestBody TravelPackage patch){
         TravelPackage travelPackage = travelPackageRepo.findById(id).get();
         if (patch == null)
@@ -60,13 +60,13 @@ public class TravelPackageController {
 
     }
 
-    @PutMapping("travelPackage/{id}")
+    @PutMapping("/travelPackage/{id}")
     public TravelPackage putTravelPackage(@RequestBody TravelPackage travelPackage){
         return travelPackageRepo.save(travelPackage);
     }
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @DeleteMapping("TravelPackage/{id}")
+    @DeleteMapping("/TravelPackage/{id}")
     public void deleteTravelPackage(@PathVariable long id){
         try{
             travelPackageRepo.deleteById(id);

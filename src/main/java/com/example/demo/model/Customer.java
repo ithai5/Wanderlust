@@ -1,17 +1,21 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Customer {
-    private int customerId;
-    private String cName;
 
     @Id
     @Column(name = "customer_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int customerId;
+
+    @Basic
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    private String cName;
+
+
     public int getCustomerId ()
     {
         return customerId;
@@ -22,8 +26,7 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    @Basic
-    @Column(name = "c_name")
+
     public String getcName ()
     {
         return cName;
