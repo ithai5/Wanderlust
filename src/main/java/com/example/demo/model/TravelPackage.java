@@ -4,13 +4,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "travel_package", schema = "wanderlust", catalog = "")
-public class TravelPackageEntity {
-    private int travelPackageId;
-    private String tpName;
-    private int tpPrice;
-
+public class TravelPackage {
     @Id
     @Column(name = "travel_package_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int travelPackageId;
+
+    @Basic
+    @Column(name = "tp_name")
+    private String tpName;
+
+    @Basic
+    @Column(name = "tp_price")
+    private int tpPrice;
+
+
     public int getTravelPackageId ()
     {
         return travelPackageId;
@@ -21,8 +29,7 @@ public class TravelPackageEntity {
         this.travelPackageId = travelPackageId;
     }
 
-    @Basic
-    @Column(name = "tp_name")
+
     public String getTpName ()
     {
         return tpName;
@@ -33,8 +40,7 @@ public class TravelPackageEntity {
         this.tpName = tpName;
     }
 
-    @Basic
-    @Column(name = "tp_price")
+
     public int getTpPrice ()
     {
         return tpPrice;
@@ -55,7 +61,7 @@ public class TravelPackageEntity {
             return false;
         }
 
-        TravelPackageEntity that = (TravelPackageEntity) o;
+        TravelPackage that = (TravelPackage) o;
 
         if (travelPackageId != that.travelPackageId) {
             return false;

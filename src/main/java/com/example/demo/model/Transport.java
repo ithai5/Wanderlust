@@ -8,13 +8,23 @@ import java.sql.Timestamp;
 
 @Entity
 public class Transport {
-    private int transportId;
-    private Timestamp tDate;
-    private String tType;
-    private String tDestination;
-
     @Id
     @Column(name = "transport_id")
+    private int transportId;
+
+    @Basic
+    @Column(name = "t_date")
+    private Timestamp tDate;
+
+    @Basic
+    @Column(name = "t_type")
+    private String tType;
+
+    @Basic
+    @Column(name = "t_destination")
+    private String tDestination;
+
+
     public int getTransportId ()
     {
         return transportId;
@@ -25,38 +35,35 @@ public class Transport {
         this.transportId = transportId;
     }
 
-    @Basic
-    @Column(name = "t_date")
-    public Timestamp gettDate ()
+
+    public Timestamp getTDate ()
     {
         return tDate;
     }
 
-    public void settDate (Timestamp tDate)
+    public void setTDate (Timestamp tDate)
     {
         this.tDate = tDate;
     }
 
-    @Basic
-    @Column(name = "t_type")
-    public String gettType ()
+
+    public String getTType ()
     {
         return tType;
     }
 
-    public void settType (String tType)
+    public void setTType (String tType)
     {
         this.tType = tType;
     }
 
-    @Basic
-    @Column(name = "t_destination")
-    public String gettDestination ()
+
+    public String getTDestination ()
     {
         return tDestination;
     }
 
-    public void settDestination (String tDestination)
+    public void setTDestination (String tDestination)
     {
         this.tDestination = tDestination;
     }
