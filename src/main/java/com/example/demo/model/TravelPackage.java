@@ -3,22 +3,14 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "travel_package", schema = "wanderlust", catalog = "")
+@Table(name = "travel_package")
 public class TravelPackage {
-    @Id
-    @Column(name = "travel_package_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int travelPackageId;
-
-    @Basic
-    @Column(name = "tp_name")
     private String tpName;
-
-    @Basic
-    @Column(name = "tp_price")
     private int tpPrice;
 
-
+    @Id
+    @Column(name = "travel_package_id", nullable = false)
     public int getTravelPackageId ()
     {
         return travelPackageId;
@@ -29,7 +21,8 @@ public class TravelPackage {
         this.travelPackageId = travelPackageId;
     }
 
-
+    @Basic
+    @Column(name = "tp_name", nullable = false, length = 30)
     public String getTpName ()
     {
         return tpName;
@@ -40,7 +33,8 @@ public class TravelPackage {
         this.tpName = tpName;
     }
 
-
+    @Basic
+    @Column(name = "tp_price", nullable = false)
     public int getTpPrice ()
     {
         return tpPrice;

@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.TravelPackage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.demo.model.TravelPackage;
 import com.example.demo.repository.TravelPackageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

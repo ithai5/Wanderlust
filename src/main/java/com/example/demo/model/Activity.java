@@ -1,23 +1,19 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Activity {
-    @Id
-    @Column(name = "activity_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int activityId;
-
-    @Basic
-    @Column(name = "a_name")
     private String aName;
-
-    @Basic
-    @Column(name = "a_description")
     private String aDescription;
+    private int travelPackageId;
 
-
+    @Id
+    @Column(name = "activity_id", nullable = false)
     public int getActivityId ()
     {
         return activityId;
@@ -28,7 +24,8 @@ public class Activity {
         this.activityId = activityId;
     }
 
-
+    @Basic
+    @Column(name = "a_name", nullable = false, length = 45)
     public String getaName ()
     {
         return aName;
@@ -39,7 +36,8 @@ public class Activity {
         this.aName = aName;
     }
 
-
+    @Basic
+    @Column(name = "a_description", nullable = false, length = 255)
     public String getaDescription ()
     {
         return aDescription;
@@ -48,6 +46,18 @@ public class Activity {
     public void setaDescription (String aDescription)
     {
         this.aDescription = aDescription;
+    }
+
+    @Basic
+    @Column(name = "travel_package_id", nullable = false)
+    public int getTravelPackageId ()
+    {
+        return travelPackageId;
+    }
+
+    public void setTravelPackageId (int travelPackageId)
+    {
+        this.travelPackageId = travelPackageId;
     }
 
     @Override
@@ -63,6 +73,9 @@ public class Activity {
         Activity activity = (Activity) o;
 
         if (activityId != activity.activityId) {
+            return false;
+        }
+        if (travelPackageId != activity.travelPackageId) {
             return false;
         }
         if (aName != null ? !aName.equals(activity.aName) : activity.aName != null) {
@@ -81,6 +94,7 @@ public class Activity {
         int result = activityId;
         result = 31 * result + (aName != null ? aName.hashCode() : 0);
         result = 31 * result + (aDescription != null ? aDescription.hashCode() : 0);
+        result = 31 * result + travelPackageId;
         return result;
     }
 }

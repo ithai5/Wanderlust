@@ -1,23 +1,19 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Accommodation {
-    @Id
-    @Column(name = "accommodation_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int accommodationId;
-
-    @Basic
-    @Column(name = "acc_name")
     private String accName;
-
-    @Basic
-    @Column(name = "acc_address")
     private String accAddress;
+    private int travelPackageId;
 
-
+    @Id
+    @Column(name = "accommodation_id", nullable = false)
     public int getAccommodationId ()
     {
         return accommodationId;
@@ -28,7 +24,8 @@ public class Accommodation {
         this.accommodationId = accommodationId;
     }
 
-
+    @Basic
+    @Column(name = "acc_name", nullable = false, length = 45)
     public String getAccName ()
     {
         return accName;
@@ -39,7 +36,8 @@ public class Accommodation {
         this.accName = accName;
     }
 
-
+    @Basic
+    @Column(name = "acc_address", nullable = false, length = 100)
     public String getAccAddress ()
     {
         return accAddress;
@@ -48,6 +46,18 @@ public class Accommodation {
     public void setAccAddress (String accAddress)
     {
         this.accAddress = accAddress;
+    }
+
+    @Basic
+    @Column(name = "travel_package_id", nullable = false)
+    public int getTravelPackageId ()
+    {
+        return travelPackageId;
+    }
+
+    public void setTravelPackageId (int travelPackageId)
+    {
+        this.travelPackageId = travelPackageId;
     }
 
     @Override
@@ -63,6 +73,9 @@ public class Accommodation {
         Accommodation that = (Accommodation) o;
 
         if (accommodationId != that.accommodationId) {
+            return false;
+        }
+        if (travelPackageId != that.travelPackageId) {
             return false;
         }
         if (accName != null ? !accName.equals(that.accName) : that.accName != null) {
@@ -81,6 +94,7 @@ public class Accommodation {
         int result = accommodationId;
         result = 31 * result + (accName != null ? accName.hashCode() : 0);
         result = 31 * result + (accAddress != null ? accAddress.hashCode() : 0);
+        result = 31 * result + travelPackageId;
         return result;
     }
 }
