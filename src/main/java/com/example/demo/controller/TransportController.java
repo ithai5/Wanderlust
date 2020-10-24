@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Transport;
+import com.example.demo.model.TravelPackage;
 import com.example.demo.repository.TransportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,15 +29,24 @@ public class TransportController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+/*Itai change it
     @GetMapping("/transport/{id}")
-    public ResponseEntity<Transport> findTransportById(@PathVariable("id"), int id){
+    public ResponseEntity<Transport> findTransportById(@PathVariable("id") int id){
         Optional<Transport> transport = transportRepo.findById(id);
         if(transport.isPresent()){
             return new ResponseEntity<>(transport, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+ */
+    @GetMapping("/transport/{id}")
+    public Optional<Transport> findTransportById(@PathVariable("id") int id){
+        if(transportRepo.findById(id).isPresent())
+            return transportRepo.findById(id);
+        else
+            return null;
     }
 
     @PostMapping("/transport")
@@ -49,13 +59,36 @@ public class TransportController {
         }
     }
 
-    //Patch missing?
+    @PatchMapping(path = "/transport/{id}", consumes = "application/json")
+    public Transport patchTransport(@PathVariable("id")  int id, @RequestBody Transport patch){
+        Transport transport = transportRepo.findById(id).get();
+        if (patch == null)
+            return null;
+        else{
+            if (patch.gettDate() != null)
+                transport.settDate(patch.gettDate());
+            if (patch.gettDestination() != null)
+                transport.settDestination(patch.gettDestination());
+            return transportRepo.save(transport);
+        }
 
+    }
+
+
+    //Patch missing?
+/*
     @PutMapping("/transport/{id}")
     public ResponseEntity<Transport> editTransport(@PathVariable("id") int id, @RequestBody Transport transport){
         Optional<Transport> transport = transportRepo.findById(id);
         Transport _transport = transportRepo.save(transport);
         return new ResponseEntity<>(_transport, HttpStatus.CREATED);
+    }
+
+
+ */
+    @PutMapping("/trasport/{id}")
+    public Transport PutTransport(@RequestBody Transport transport){
+        return transportRepo.save(transport);
     }
 
     @DeleteMapping("transport/{id}")
