@@ -32,7 +32,7 @@ public class TravelPackageController {
     }
 
     @GetMapping("/travelPackage/{id}")
-    public Optional<TravelPackage> findById(@PathVariable long id){
+    public Optional<TravelPackage> findById(@PathVariable("id")  int id){
         if(travelPackageRepo.findById(id).isPresent())
             return travelPackageRepo.findById(id);
         else
@@ -46,7 +46,7 @@ public class TravelPackageController {
     }
 
     @PatchMapping(path = "/travelPackage/{id}", consumes = "application/json")
-    public TravelPackage patchTravelPackage(@PathVariable long id, @RequestBody TravelPackage patch){
+    public TravelPackage patchTravelPackage(@PathVariable("id")  int id, @RequestBody TravelPackage patch){
         TravelPackage travelPackage = travelPackageRepo.findById(id).get();
         if (patch == null)
             return null;
@@ -67,7 +67,7 @@ public class TravelPackageController {
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/TravelPackage/{id}")
-    public void deleteTravelPackage(@PathVariable long id){
+    public void deleteTravelPackage(@PathVariable("id")  int id){
         try{
             travelPackageRepo.deleteById(id);
         }

@@ -33,7 +33,7 @@ public class ActivityController {
     }
 
     @GetMapping("/activity/{id}")
-    public Optional<Activity> findById(@PathVariable long id){
+    public Optional<Activity> findById(@PathVariable("id")  int id){
         if(activityRepo.findById(id).isPresent()){
             return activityRepo.findById(id);
         }
@@ -49,7 +49,7 @@ public class ActivityController {
     }
 
     @PatchMapping(path = "/activity/{id}", consumes =  "application/json")
-    public Activity patchActivity (@PathVariable long id , @RequestBody Activity patch){
+    public Activity patchActivity (@PathVariable("id") int id , @RequestBody Activity patch){
         Activity activity = activityRepo.findById(id).get();
         if(patch == null)
             return null;
@@ -71,7 +71,7 @@ public class ActivityController {
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/activity/{id}")
-    public void deleteActivity(@PathVariable long id){
+    public void deleteActivity(@PathVariable("id")  int id){
         try{
             activityRepo.deleteById(id);
         }

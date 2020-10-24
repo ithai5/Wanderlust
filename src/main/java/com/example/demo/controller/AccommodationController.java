@@ -31,7 +31,7 @@ public class AccommodationController {
     }
 
     @GetMapping("/accommodation/{id}")
-    public Optional<Accommodation> findById(@PathVariable long id){
+    public Optional<Accommodation> findById(@PathVariable ("id") int id){
         if( accommodationRepo.findById(id).isPresent())
             return accommodationRepo.findById(id);
         else
@@ -45,7 +45,7 @@ public class AccommodationController {
     }
 
     @PatchMapping(path = "accommodation/{id}" , consumes = "application/json")
-    public Accommodation putAccommodation (@PathVariable long id, @RequestBody Accommodation patch ){
+    public Accommodation putAccommodation (@PathVariable ("id")  int id, @RequestBody Accommodation patch ){
         Accommodation accommodation = accommodationRepo.findById(id).get();
         if (accommodation == null)
             return null;
