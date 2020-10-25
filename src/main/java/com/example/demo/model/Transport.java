@@ -8,23 +8,14 @@ import java.sql.Timestamp;
 
 @Entity
 public class Transport {
-    @Id
-    @Column(name = "transport_id")
     private int transportId;
-
-    @Basic
-    @Column(name = "t_date")
     private Timestamp tDate;
-
-    @Basic
-    @Column(name = "t_type")
     private String tType;
-
-    @Basic
-    @Column(name = "t_destination")
     private String tDestination;
+    private int travelPackageId;
 
-
+    @Id
+    @Column(name = "transport_id", nullable = false)
     public int getTransportId ()
     {
         return transportId;
@@ -35,37 +26,52 @@ public class Transport {
         this.transportId = transportId;
     }
 
-
-    public Timestamp getTDate ()
+    @Basic
+    @Column(name = "t_date", nullable = false)
+    public Timestamp gettDate ()
     {
         return tDate;
     }
 
-    public void setTDate (Timestamp tDate)
+    public void settDate (Timestamp tDate)
     {
         this.tDate = tDate;
     }
 
-
-    public String getTType ()
+    @Basic
+    @Column(name = "t_type", nullable = false, length = 45)
+    public String gettType ()
     {
         return tType;
     }
 
-    public void setTType (String tType)
+    public void settType (String tType)
     {
         this.tType = tType;
     }
 
-
-    public String getTDestination ()
+    @Basic
+    @Column(name = "t_destination", nullable = false, length = 45)
+    public String gettDestination ()
     {
         return tDestination;
     }
 
-    public void setTDestination (String tDestination)
+    public void settDestination (String tDestination)
     {
         this.tDestination = tDestination;
+    }
+
+    @Basic
+    @Column(name = "travel_package_id", nullable = false)
+    public int getTravelPackageId ()
+    {
+        return travelPackageId;
+    }
+
+    public void setTravelPackageId (int travelPackageId)
+    {
+        this.travelPackageId = travelPackageId;
     }
 
     @Override
@@ -81,6 +87,9 @@ public class Transport {
         Transport transport = (Transport) o;
 
         if (transportId != transport.transportId) {
+            return false;
+        }
+        if (travelPackageId != transport.travelPackageId) {
             return false;
         }
         if (tDate != null ? !tDate.equals(transport.tDate) : transport.tDate != null) {
@@ -103,6 +112,7 @@ public class Transport {
         result = 31 * result + (tDate != null ? tDate.hashCode() : 0);
         result = 31 * result + (tType != null ? tType.hashCode() : 0);
         result = 31 * result + (tDestination != null ? tDestination.hashCode() : 0);
+        result = 31 * result + travelPackageId;
         return result;
     }
 }
