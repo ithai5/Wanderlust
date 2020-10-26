@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exeption.ResourceNotFoundException;
 import com.example.demo.model.Activity;
 import com.example.demo.repository.ActivityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -33,13 +33,10 @@ public class ActivityController {
     }
 
     @GetMapping("/activity/{id}")
-    public Optional<Activity> findById(@PathVariable("id")  int id){
-        if(activityRepo.findById(id).isPresent()){
-            return activityRepo.findById(id);
-        }
-        else{
-            return null;
-        }
+    public ResponseEntity<Activity> findById(@PathVariable("id")  int id){
+        Activity activity = activityRepo.findById(id).orElseThrow(()->
+                new ResourceNotFoundException("Not found activity with id = " + id));
+        return new ResponseEntity<>(activity, HttpStatus.OK);
     }
 
     @PostMapping(value = "/activity" , consumes = "application/json")
@@ -50,17 +47,13 @@ public class ActivityController {
 
     @PatchMapping(path = "/activity/{id}", consumes =  "application/json")
     public Activity patchActivity (@PathVariable("id") int id , @RequestBody Activity patch){
-        Activity activity = activityRepo.findById(id).get();
-        if(patch == null)
-            return null;
-        else {
+        Activity activity = activityRepo.findById(id).orElseThrow(()->
+                new ResourceNotFoundException("Not found activity with id" + id));
             if (patch.getaName() != null)
                 activity.setaName(patch.getaName());
 
             if (patch.getaDescription() != null)
                 activity.setaDescription(patch.getaDescription());
-
-        }
         return activityRepo.save(activity);
     }
 

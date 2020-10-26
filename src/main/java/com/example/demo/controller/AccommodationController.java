@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exeption.ResourceNotFoundException;
 import com.example.demo.model.Accommodation;
 import com.example.demo.repository.AccommodationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -31,12 +31,13 @@ public class AccommodationController {
     }
 
     @GetMapping("/accommodation/{id}")
-    public Optional<Accommodation> findById(@PathVariable ("id") int id){
-        if( accommodationRepo.findById(id).isPresent())
-            return accommodationRepo.findById(id);
-        else
-            return null;
+    public ResponseEntity<Accommodation> getAccommodationById(@PathVariable("id") int id){
+        Accommodation accommodation = accommodationRepo.findById(id).orElseThrow(()->
+                new ResourceNotFoundException("Not found accommodation with id = " +id));
+        return new ResponseEntity<>(accommodation,HttpStatus.OK);
     }
+
+
 
     @PostMapping(value = "/accommodation" , consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,10 +47,8 @@ public class AccommodationController {
 
     @PatchMapping(path = "accommodation/{id}" , consumes = "application/json")
     public Accommodation putAccommodation (@PathVariable ("id")  int id, @RequestBody Accommodation patch ){
-        Accommodation accommodation = accommodationRepo.findById(id).get();
-        if (accommodation == null)
-            return null;
-        else {
+        Accommodation accommodation = accommodationRepo.findById(id).orElseThrow(()->
+                new ResourceNotFoundException("Not found accommodation with id = " + id));
             if (patch.getAccAddress() !=null){
                 accommodation.setAccAddress(patch.getAccAddress());
             }
@@ -57,7 +56,6 @@ public class AccommodationController {
                 accommodation.setAccName(patch.getAccName());
             }
             return accommodationRepo.save(accommodation);
-        }
     }
 
     @PutMapping("accommodation/{id}")

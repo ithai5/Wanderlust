@@ -1,14 +1,24 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Customer {
     private int customerId;
     private String cName;
+    private Collection<Invoice> invoicesByCustomerId;
+
+    public Customer ()
+    {
+    }
+
+    public Customer (int customerId, String cName, Collection<Invoice> invoicesByCustomerId)
+    {
+        this.customerId = customerId;
+        this.cName = cName;
+        this.invoicesByCustomerId = invoicesByCustomerId;
+    }
 
     @Id
     @Column(name = "customer_id", nullable = false)
@@ -62,5 +72,16 @@ public class Customer {
         int result = customerId;
         result = 31 * result + (cName != null ? cName.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "customerByCustomerId")
+    public Collection<Invoice> getInvoicesByCustomerId ()
+    {
+        return invoicesByCustomerId;
+    }
+
+    public void setInvoicesByCustomerId (Collection<Invoice> invoicesByCustomerId)
+    {
+        this.invoicesByCustomerId = invoicesByCustomerId;
     }
 }

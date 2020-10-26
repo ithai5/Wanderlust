@@ -1,16 +1,25 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Activity {
     private int activityId;
     private String aName;
     private String aDescription;
-    private int travelPackageId;
+    private TravelPackage travelPackageByTravelPackageId;
+
+    public Activity ()
+    {
+    }
+
+    public Activity (int activityId, String aName, String aDescription, TravelPackage travelPackageByTravelPackageId)
+    {
+        this.activityId = activityId;
+        this.aName = aName;
+        this.aDescription = aDescription;
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
 
     @Id
     @Column(name = "activity_id", nullable = false)
@@ -48,18 +57,6 @@ public class Activity {
         this.aDescription = aDescription;
     }
 
-    @Basic
-    @Column(name = "travel_package_id", nullable = false)
-    public int getTravelPackageId ()
-    {
-        return travelPackageId;
-    }
-
-    public void setTravelPackageId (int travelPackageId)
-    {
-        this.travelPackageId = travelPackageId;
-    }
-
     @Override
     public boolean equals (Object o)
     {
@@ -73,9 +70,6 @@ public class Activity {
         Activity activity = (Activity) o;
 
         if (activityId != activity.activityId) {
-            return false;
-        }
-        if (travelPackageId != activity.travelPackageId) {
             return false;
         }
         if (aName != null ? !aName.equals(activity.aName) : activity.aName != null) {
@@ -94,7 +88,18 @@ public class Activity {
         int result = activityId;
         result = 31 * result + (aName != null ? aName.hashCode() : 0);
         result = 31 * result + (aDescription != null ? aDescription.hashCode() : 0);
-        result = 31 * result + travelPackageId;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "travel_package_id", referencedColumnName = "travel_package_id", nullable = false)
+    public TravelPackage getTravelPackageByTravelPackageId ()
+    {
+        return travelPackageByTravelPackageId;
+    }
+
+    public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
+    {
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
     }
 }

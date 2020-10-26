@@ -1,16 +1,25 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Accommodation {
     private int accommodationId;
     private String accName;
     private String accAddress;
-    private int travelPackageId;
+    private TravelPackage travelPackageByTravelPackageId;
+
+    public Accommodation ()
+    {
+    }
+
+    public Accommodation (int accommodationId, String accName, String accAddress, TravelPackage travelPackageByTravelPackageId)
+    {
+        this.accommodationId = accommodationId;
+        this.accName = accName;
+        this.accAddress = accAddress;
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
 
     @Id
     @Column(name = "accommodation_id", nullable = false)
@@ -48,18 +57,6 @@ public class Accommodation {
         this.accAddress = accAddress;
     }
 
-    @Basic
-    @Column(name = "travel_package_id", nullable = false)
-    public int getTravelPackageId ()
-    {
-        return travelPackageId;
-    }
-
-    public void setTravelPackageId (int travelPackageId)
-    {
-        this.travelPackageId = travelPackageId;
-    }
-
     @Override
     public boolean equals (Object o)
     {
@@ -73,9 +70,6 @@ public class Accommodation {
         Accommodation that = (Accommodation) o;
 
         if (accommodationId != that.accommodationId) {
-            return false;
-        }
-        if (travelPackageId != that.travelPackageId) {
             return false;
         }
         if (accName != null ? !accName.equals(that.accName) : that.accName != null) {
@@ -94,7 +88,18 @@ public class Accommodation {
         int result = accommodationId;
         result = 31 * result + (accName != null ? accName.hashCode() : 0);
         result = 31 * result + (accAddress != null ? accAddress.hashCode() : 0);
-        result = 31 * result + travelPackageId;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "travel_package_id", referencedColumnName = "travel_package_id", nullable = false)
+    public TravelPackage getTravelPackageByTravelPackageId ()
+    {
+        return travelPackageByTravelPackageId;
+    }
+
+    public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
+    {
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
     }
 }
