@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Transport;
-import com.example.demo.model.TravelPackage;
 import com.example.demo.repository.TransportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

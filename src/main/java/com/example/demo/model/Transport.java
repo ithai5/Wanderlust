@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -12,7 +9,20 @@ public class Transport {
     private Timestamp tDate;
     private String tType;
     private String tDestination;
-    private int travelPackageId;
+    private TravelPackage travelPackageByTravelPackageId;
+
+    public Transport ()
+    {
+    }
+
+    public Transport (int transportId, Timestamp tDate, String tType, String tDestination, TravelPackage travelPackageByTravelPackageId)
+    {
+        this.transportId = transportId;
+        this.tDate = tDate;
+        this.tType = tType;
+        this.tDestination = tDestination;
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
 
     @Id
     @Column(name = "transport_id", nullable = false)
@@ -62,18 +72,6 @@ public class Transport {
         this.tDestination = tDestination;
     }
 
-    @Basic
-    @Column(name = "travel_package_id", nullable = false)
-    public int getTravelPackageId ()
-    {
-        return travelPackageId;
-    }
-
-    public void setTravelPackageId (int travelPackageId)
-    {
-        this.travelPackageId = travelPackageId;
-    }
-
     @Override
     public boolean equals (Object o)
     {
@@ -87,9 +85,6 @@ public class Transport {
         Transport transport = (Transport) o;
 
         if (transportId != transport.transportId) {
-            return false;
-        }
-        if (travelPackageId != transport.travelPackageId) {
             return false;
         }
         if (tDate != null ? !tDate.equals(transport.tDate) : transport.tDate != null) {
@@ -112,7 +107,18 @@ public class Transport {
         result = 31 * result + (tDate != null ? tDate.hashCode() : 0);
         result = 31 * result + (tType != null ? tType.hashCode() : 0);
         result = 31 * result + (tDestination != null ? tDestination.hashCode() : 0);
-        result = 31 * result + travelPackageId;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "travel_package_id", referencedColumnName = "travel_package_id", nullable = false)
+    public TravelPackage getTravelPackageByTravelPackageId ()
+    {
+        return travelPackageByTravelPackageId;
+    }
+
+    public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
+    {
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
     }
 }

@@ -1,16 +1,25 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Invoice {
     private int invoiceId;
     private int totalPeople;
-    private int customerId;
-    private int travelPackageId;
+    private Customer customerByCustomerId;
+    private TravelPackage travelPackageByTravelPackageId;
+
+    public Invoice ()
+    {
+    }
+
+    public Invoice (int invoiceId, int totalPeople, Customer customerByCustomerId, TravelPackage travelPackageByTravelPackageId)
+    {
+        this.invoiceId = invoiceId;
+        this.totalPeople = totalPeople;
+        this.customerByCustomerId = customerByCustomerId;
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
 
     @Id
     @Column(name = "invoice_id", nullable = false)
@@ -36,30 +45,6 @@ public class Invoice {
         this.totalPeople = totalPeople;
     }
 
-    @Basic
-    @Column(name = "customer_id", nullable = false)
-    public int getCustomerId ()
-    {
-        return customerId;
-    }
-
-    public void setCustomerId (int customerId)
-    {
-        this.customerId = customerId;
-    }
-
-    @Basic
-    @Column(name = "travel_package_id", nullable = false)
-    public int getTravelPackageId ()
-    {
-        return travelPackageId;
-    }
-
-    public void setTravelPackageId (int travelPackageId)
-    {
-        this.travelPackageId = travelPackageId;
-    }
-
     @Override
     public boolean equals (Object o)
     {
@@ -78,12 +63,6 @@ public class Invoice {
         if (totalPeople != invoice.totalPeople) {
             return false;
         }
-        if (customerId != invoice.customerId) {
-            return false;
-        }
-        if (travelPackageId != invoice.travelPackageId) {
-            return false;
-        }
 
         return true;
     }
@@ -93,8 +72,30 @@ public class Invoice {
     {
         int result = invoiceId;
         result = 31 * result + totalPeople;
-        result = 31 * result + customerId;
-        result = 31 * result + travelPackageId;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    public Customer getCustomerByCustomerId ()
+    {
+        return customerByCustomerId;
+    }
+
+    public void setCustomerByCustomerId (Customer customerByCustomerId)
+    {
+        this.customerByCustomerId = customerByCustomerId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "travel_package_id", referencedColumnName = "travel_package_id", nullable = false)
+    public TravelPackage getTravelPackageByTravelPackageId ()
+    {
+        return travelPackageByTravelPackageId;
+    }
+
+    public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
+    {
+        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
     }
 }
