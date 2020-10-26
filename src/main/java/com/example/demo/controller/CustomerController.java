@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Activity;
 import com.example.demo.model.Customer;
 import com.example.demo.repository.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +23,16 @@ public class CustomerController {
 
     @GetMapping("/customer")
     public ResponseEntity<List<Customer>> getAllCustomer(){
-        try{
-            List<Customer> ls = new ArrayList<>();
-            ls.addAll(customerRepo.findAll());
-            return new ResponseEntity<>(ls, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Customer> ls = new ArrayList<>();
+        ls.addAll(customerRepo.findAll());
+        return new ResponseEntity<>(ls, HttpStatus.OK);
     }
 
     @GetMapping("customer/{id}")
-    public Optional<Customer> findById(@PathVariable("id") int id){
-        if(customerRepo.findById(id).isPresent())
-            return customerRepo.findById(id);
-        else
-            return null;
+    public ResponseEntity<Customer> findById(@PathVariable("id") int id){
+       Customer customer = customerRepo.findById(id).orElseThrow(() ->
+               new ResourceNotFoundException("Not found customer id = " + id));
+       return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     @PostMapping(value = "/customer" , consumes = "application/json")

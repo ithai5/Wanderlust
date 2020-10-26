@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.exeption.ResourceNotFoundException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Accommodation;
 import com.example.demo.repository.AccommodationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,10 @@ public class AccommodationController {
 
     @GetMapping("/accommodation")
     public ResponseEntity<List<Accommodation>> getAllAccommodation(){
-        try{
-            List<Accommodation> lsAccommodation = new ArrayList<>();
-            lsAccommodation.addAll(accommodationRepo.findAll());
-            return new ResponseEntity<>(lsAccommodation, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Accommodation> lsAccommodation = new ArrayList<>();
+        lsAccommodation.addAll(accommodationRepo.findAll());
+
+        return new ResponseEntity<>(lsAccommodation, HttpStatus.OK);
     }
 
     @GetMapping("/accommodation/{id}")
