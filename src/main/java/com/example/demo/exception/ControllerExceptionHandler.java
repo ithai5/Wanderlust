@@ -1,4 +1,4 @@
-package com.example.demo.exeption;
+package com.example.demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,4 +30,5 @@ public class ControllerExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    //Consider adding EmptyResultDataAccessException to the ExceptionHandler
 }

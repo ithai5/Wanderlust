@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.exeption.ResourceNotFoundException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Activity;
 import com.example.demo.repository.ActivityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,9 @@ public class ActivityController {
 
     @GetMapping("/activity")
     public ResponseEntity <List<Activity>> getAllActivity(){
-        try{
-            List<Activity> lsActivity = new ArrayList<>();
-            lsActivity.addAll(activityRepo.findAll());
-            return new ResponseEntity<>(lsActivity, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Activity> lsActivity = new ArrayList<>();
+        lsActivity.addAll(activityRepo.findAll());
+        return new ResponseEntity<>(lsActivity, HttpStatus.OK);
     }
 
     @GetMapping("/activity/{id}")
@@ -57,11 +52,7 @@ public class ActivityController {
         return activityRepo.save(activity);
     }
 
-    @PutMapping("/activity/{id}")
-    public Activity putActivity(@RequestBody Activity activity){
-        return activityRepo.save(activity);
-    }
-
+    //Consider adding EmptyResultDataAccessException to the ExceptionHandler
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/activity/{id}")
     public void deleteActivity(@PathVariable("id")  int id){

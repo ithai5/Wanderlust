@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Invoice;
 import com.example.demo.repository.InvoiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,15 @@ public class InvoiceController {
 
     @GetMapping("/invoice")
     public ResponseEntity<List<Invoice>> getAllInvoice(){
-        try{
-            List<Invoice> ls = new ArrayList<>();
-            ls.addAll(invoiceRepo.findAll());
-            return new ResponseEntity<>(ls, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Invoice> ls = new ArrayList<>();
+        ls.addAll(invoiceRepo.findAll());
+        return new ResponseEntity<>(ls, HttpStatus.OK);
     }
 
     @GetMapping("/invoice/{id}")
-    public Optional<Invoice> findByid(@PathVariable("id") int id){
-        if(invoiceRepo.findById(id).isPresent())
-            return invoiceRepo.findById(id);
-        else
-            return null;
+    public ResponseEntity<Invoice> findByid(@PathVariable("id") int id){
+        Invoice invoice = invoiceRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found invoice id = " + id));
+        return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
     @PostMapping(value = "/invoice" , consumes = "application/json")

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Transport;
 import com.example.demo.repository.TransportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,28 +29,15 @@ public class TransportController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-/*Itai change it
+
     @GetMapping("/transport/{id}")
     public ResponseEntity<Transport> findTransportById(@PathVariable("id") int id){
-        Optional<Transport> transport = transportRepo.findById(id);
-        if(transport.isPresent()){
-            return new ResponseEntity<>(transport, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
- */
-    @GetMapping("/transport/{id}")
-    public Optional<Transport> findTransportById(@PathVariable("id") int id){
-        if(transportRepo.findById(id).isPresent())
-            return transportRepo.findById(id);
-        else
-            return null;
+        Transport transport = transportRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found transport id = " + id));
+        return new ResponseEntity<>(transport, HttpStatus.OK);
     }
 
     @PostMapping("/transport")
-    public ResponseEntity<Transport> addTransport(@RequestBody Transport transport){
+    public ResponseEntity<Transport> postTransport(@RequestBody Transport transport){
         try {
             Transport newTransport = transportRepo.save(transport);
             return new ResponseEntity<>(newTransport, HttpStatus.CREATED);
@@ -71,23 +59,6 @@ public class TransportController {
             return transportRepo.save(transport);
         }
 
-    }
-
-
-    //Patch missing?
-/*
-    @PutMapping("/transport/{id}")
-    public ResponseEntity<Transport> editTransport(@PathVariable("id") int id, @RequestBody Transport transport){
-        Optional<Transport> transport = transportRepo.findById(id);
-        Transport _transport = transportRepo.save(transport);
-        return new ResponseEntity<>(_transport, HttpStatus.CREATED);
-    }
-
-
- */
-    @PutMapping("/trasport/{id}")
-    public Transport PutTransport(@RequestBody Transport transport){
-        return transportRepo.save(transport);
     }
 
     @DeleteMapping("transport/{id}")
