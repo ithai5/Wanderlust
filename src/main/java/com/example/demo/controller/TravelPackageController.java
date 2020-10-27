@@ -3,15 +3,20 @@ package com.example.demo.controller;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.TravelPackage;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.demo.repository.TravelPackageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -83,5 +88,62 @@ public class TravelPackageController {
             return Sort.Direction.DESC;
         }
         return Sort.Direction.DESC;
+    }
+
+    @GetMapping("/travelPackage/paging")
+    public ResponseEntity<Map<String, Object>> getPageOfTravelPackages(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<TravelPackage> pageTp = travelPackageRepo.findAll(paging);
+        List<TravelPackage> travelPackages = pageTp.getContent();
+
+        if (travelPackages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("travelPackages", travelPackages);
+        response.put("currentPage", pageTp.getNumber());
+        response.put("totalItems", pageTp.getTotalElements());
+        response.put("totalPage", pageTp.getTotalPages());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/travelPackage/pageAndSort")
+    public ResponseEntity<Map<String, Object>> getPageAndSort(
+            @RequestParam(required = false) String tpName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int size,
+            @RequestParam(defaultValue = "tpPrice,desc") String[]sort) {
+
+        //Sorting part
+        List<Sort.Order> orders = new ArrayList<Sort.Order>();
+        //sort=[field, direction]
+        orders.add(new Sort.Order(getSortDirection(sort[1]),sort[0]));
+
+        //Paging
+        Pageable paging = PageRequest.of(page, size, Sort.by(orders));
+        Page<TravelPackage> pageTp;
+        if (tpName == null) {
+            pageTp = travelPackageRepo.findAll(paging);
+        } else {
+            pageTp = travelPackageRepo.findAllByTpNameContaining(tpName, paging);
+        }
+
+        List<TravelPackage> travelPackages = pageTp.getContent();
+
+        if (travelPackages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("travelPackages", travelPackages);
+        response.put("currentPage", pageTp.getNumber());
+        response.put("totalItems", pageTp.getTotalElements());
+        response.put("totalPage", pageTp.getTotalPages());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
