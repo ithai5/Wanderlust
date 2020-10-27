@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -91,6 +93,7 @@ public class Accommodation {
         return result;
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "travel_package_id", referencedColumnName = "travel_package_id", nullable = false)
     public TravelPackage getTravelPackageByTravelPackageId ()
