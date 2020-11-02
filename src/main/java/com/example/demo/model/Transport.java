@@ -127,7 +127,7 @@ public class Transport {
     }
 
     @Basic
-    @Column(name = "t-price", nullable = false)
+    @Column(name = "t_price", nullable = false)
     public int gettPrice ()
     {
         return tPrice;
