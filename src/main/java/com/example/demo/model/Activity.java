@@ -10,17 +10,10 @@ public class Activity {
     private String aName;
     private String aDescription;
     private TravelPackage travelPackageByTravelPackageId;
+    private int aPrice;
 
     public Activity ()
     {
-    }
-
-    public Activity (int activityId, String aName, String aDescription, TravelPackage travelPackageByTravelPackageId)
-    {
-        this.activityId = activityId;
-        this.aName = aName;
-        this.aDescription = aDescription;
-        this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
     }
 
     @Id
@@ -92,6 +85,7 @@ public class Activity {
         result = 31 * result + (aDescription != null ? aDescription.hashCode() : 0);
         return result;
     }
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "travel_package_id", referencedColumnName = "travel_package_id", nullable = false)
@@ -103,5 +97,17 @@ public class Activity {
     public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
     {
         this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
+
+    @Basic
+    @Column(name = "a_price", nullable = false)
+    public int getaPrice ()
+    {
+        return aPrice;
+    }
+
+    public void setaPrice (int aPrice)
+    {
+        this.aPrice = aPrice;
     }
 }

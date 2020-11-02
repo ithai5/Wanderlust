@@ -12,6 +12,7 @@ public class Transport {
     private String tType;
     private String tDestination;
     private TravelPackage travelPackageByTravelPackageId;
+    private int tPrice;
 
     public Transport ()
     {
@@ -123,5 +124,17 @@ public class Transport {
     public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
     {
         this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
+
+    @Basic
+    @Column(name = "t-price", nullable = false)
+    public int gettPrice ()
+    {
+        return tPrice;
+    }
+
+    public void settPrice (int tPrice)
+    {
+        this.tPrice = tPrice;
     }
 }

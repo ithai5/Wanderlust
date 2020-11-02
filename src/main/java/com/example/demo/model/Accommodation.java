@@ -10,6 +10,7 @@ public class Accommodation {
     private String accName;
     private String accAddress;
     private TravelPackage travelPackageByTravelPackageId;
+    private int accPrice;
 
     public Accommodation ()
     {
@@ -104,5 +105,17 @@ public class Accommodation {
     public void setTravelPackageByTravelPackageId (TravelPackage travelPackageByTravelPackageId)
     {
         this.travelPackageByTravelPackageId = travelPackageByTravelPackageId;
+    }
+
+    @Basic
+    @Column(name = "acc_price", nullable = false)
+    public int getAccPrice ()
+    {
+        return accPrice;
+    }
+
+    public void setAccPrice (int accPrice)
+    {
+        this.accPrice = accPrice;
     }
 }

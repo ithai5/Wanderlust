@@ -13,6 +13,7 @@ public class TravelPackage {
     private Collection<Activity> activitiesByTravelPackageId;
     private Collection<Invoice> invoicesByTravelPackageId;
     private Collection<Transport> transportsByTravelPackageId;
+    private String tpDescription;
 
     public TravelPackage ()
     {
@@ -141,5 +142,17 @@ public class TravelPackage {
     public void setTransportsByTravelPackageId (Collection<Transport> transportsByTravelPackageId)
     {
         this.transportsByTravelPackageId = transportsByTravelPackageId;
+    }
+
+    @Basic
+    @Column(name = "tp_description", nullable = false, length = 45)
+    public String getTpDescription ()
+    {
+        return tpDescription;
+    }
+
+    public void setTpDescription (String tpDescription)
+    {
+        this.tpDescription = tpDescription;
     }
 }
