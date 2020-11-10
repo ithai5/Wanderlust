@@ -11,7 +11,6 @@ public class TravelPackage {
     private int tpPrice;
     private Collection<Accommodation> accommodationsByTravelPackageId;
     private Collection<Activity> activitiesByTravelPackageId;
-    private Collection<Invoice> invoicesByTravelPackageId;
     private Collection<Transport> transportsByTravelPackageId;
     private String tpDescription;
 
@@ -19,14 +18,13 @@ public class TravelPackage {
     {
     }
 
-    public TravelPackage (int travelPackageId, String tpName, int tpPrice, Collection<Accommodation> accommodationsByTravelPackageId, Collection<Activity> activitiesByTravelPackageId, Collection<Invoice> invoicesByTravelPackageId, Collection<Transport> transportsByTravelPackageId)
+    public TravelPackage(int travelPackageId, String tpName, int tpPrice, Collection<Accommodation> accommodationsByTravelPackageId, Collection<Activity> activitiesByTravelPackageId, Collection<Transport> transportsByTravelPackageId)
     {
         this.travelPackageId = travelPackageId;
         this.tpName = tpName;
         this.tpPrice = tpPrice;
         this.accommodationsByTravelPackageId = accommodationsByTravelPackageId;
         this.activitiesByTravelPackageId = activitiesByTravelPackageId;
-        this.invoicesByTravelPackageId = invoicesByTravelPackageId;
         this.transportsByTravelPackageId = transportsByTravelPackageId;
     }
 
@@ -120,17 +118,6 @@ public class TravelPackage {
     public void setActivitiesByTravelPackageId (Collection<Activity> activitiesByTravelPackageId)
     {
         this.activitiesByTravelPackageId = activitiesByTravelPackageId;
-    }
-
-    @OneToMany(mappedBy = "travelPackageByTravelPackageId")
-    public Collection<Invoice> getInvoicesByTravelPackageId ()
-    {
-        return invoicesByTravelPackageId;
-    }
-
-    public void setInvoicesByTravelPackageId (Collection<Invoice> invoicesByTravelPackageId)
-    {
-        this.invoicesByTravelPackageId = invoicesByTravelPackageId;
     }
 
     @OneToMany(mappedBy = "travelPackageByTravelPackageId")
